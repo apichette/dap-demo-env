@@ -1,0 +1,31 @@
+version: '2'
+services:
+  puppet:
+    image: puppet-master:demo
+    container_name: puppet
+    environment:
+      AUTOSIGN: "true"
+      TERM: "xterm"
+      TZ: "UTC"
+    hostname: puppet
+    networks: 
+      default: 
+        aliases:
+          - puppet
+    volumes:
+      - ./puppet/manifests/:/etc/puppetlabs/code/environments/production/manifests/:Z
+      - ./puppet/modules/motd/:/etc/puppetlabs/code/environments/production/modules/motd/:Z
+    ports:
+      - 1443:443
+ 
+  prod-webapp:
+    image: puppet-agent:demo
+    container_name: prod-webapp
+    hostname: prod-webapp
+    privileged: true
+
+  dev-webapp:
+    image: puppet-agent:demo
+    container_name: dev-webapp
+    hostname: dev-webapp
+    privileged: true

@@ -1,0 +1,22 @@
+#!/bin/bash  -x
+set -eo pipefail
+main() {
+  docker-compose up -d
+  initialize_client_node
+  clear
+  echo "cd to /demo..."
+  docker exec -it client_node bash
+}
+
+initialize_client_node() {
+  docker exec -itu root conjur_cli bash -c "echo \"$CONJUR_MASTER_HOST_IP     $CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
+  docker exec -it conjur_cli bash -x /demo_root/init.sh
+  docker cp ./conjur-$CONJUR_ACCOUNT.pem client_node:/etc
+  docker cp ./conjur.conf client_node:/etc
+  docker cp ./conjur.identity client_node:/etc
+  rm ./conjur*
+  docker exec -itu root client_node bash -c "echo \"$CONJUR_MASTER_HOST_IP     $CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
+  docker exec -it client_node terraform init
+}
+
+main $@

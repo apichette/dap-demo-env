@@ -1,0 +1,35 @@
+---
+- !policy
+  id: client
+  annotations:
+    description: Conjur policy for Automation client node
+  body:
+  - !layer nodes
+
+  - !host node
+
+  - !host-factory
+    id: node_factory
+    layer: [ nodes ]
+
+
+- !policy
+  id: secrets
+  body:
+  - !variable test-db_username
+  - !variable test-db_password
+  - !variable prod-db_username
+  - !variable prod-db_password
+
+    # Permit node identity to retrieve secrets
+  - !permit
+    privileges: [ read, execute ]
+    roles:
+    - !host /client/node
+    - !layer /client/nodes
+    resources:
+    - !variable test-db_username
+    - !variable test-db_password
+    - !variable prod-db_username
+    - !variable prod-db_password
+
