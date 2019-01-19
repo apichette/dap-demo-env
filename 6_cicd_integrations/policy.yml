@@ -21,14 +21,15 @@
   - !variable prod-db-password
 
   # Permit node identity to retrieve secrets
-  - !permit
-    privileges: [ read, execute ]
-    roles:
-    - !host /client/node
-    - !layer /client/nodes
-    resources:
-    - !variable test-db-username
-    - !variable test-db-password
-    - !variable prod-db-username
-    - !variable prod-db-password
-
+- !permit
+  privileges: [ read, execute ]
+  roles:
+  - !host client/node
+  - !layer client/nodes
+  resources:
+  - !variable cicd-secrets/test-db-username
+  - !variable cicd-secrets/test-db-password
+  - !variable cicd-secrets/prod-db-username
+  - !variable cicd-secrets/prod-db-password
+  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/username
+  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password

@@ -1,0 +1,34 @@
+version: "2"
+services:
+
+  # nginx web server
+  server:
+    build: ./build/server
+    container_name: server
+#    environment:
+#      CONJUR_APPLIANCE_URL: $CONJUR_APPLIANCE_URL
+#      CONJUR_ACCOUNT: $CONJUR_ACCOUNT
+    ports:
+      - "9080:80"
+      - "9443:443"
+    volumes:
+      - ./server:/server
+  
+  # curl web client
+  client:
+    build: ./build/client
+    container_name: client
+#    environment:
+#      CONJUR_APPLIANCE_URL: $CONJUR_APPLIANCE_URL
+#      CONJUR_ACCOUNT: $CONJUR_ACCOUNT
+    volumes:
+      - ./client:/client
+  
+  # Service for generating our root and intermediate CA
+  ca:
+    build: ./build/ca
+    volumes: 
+      - ./ca:/root
+
+volumes:
+  certs:

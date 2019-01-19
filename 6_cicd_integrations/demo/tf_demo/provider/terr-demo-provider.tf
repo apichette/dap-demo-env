@@ -1,11 +1,11 @@
 provider "conjur" {}
 
 data "conjur_secret" "db_uname" {
-  name = "cicd-secrets/prod-db-username"
+  name = "DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/username"
 }
 
 data "conjur_secret" "db_pwd" {
-  name = "cicd-secrets/prod-db-password"
+  name = "DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password"
 }
 
 output "db_pwd" {

@@ -1,0 +1,7 @@
+FROM ubuntu
+
+RUN apt-get update -y && \
+    apt-get install -y \
+      openssl \
+      jq \
+      curl

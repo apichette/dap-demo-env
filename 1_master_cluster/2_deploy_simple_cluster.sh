@@ -7,7 +7,7 @@ main() {
   scope launch
   master_up
   cli_up
-  follower_up
+#  follower_up
   echo
 }
 
@@ -60,13 +60,13 @@ cli_up() {
   echo "CLI container launched."
 
   if [[ $NO_DNS ]]; then
-    # add entry to cli container's /etc/hosts so $CONJUR_MASTER_HOST_NAME resolves
+    # add entry for master host name to cli container's /etc/hosts 
     docker exec -it $CLI_CONTAINER_NAME bash -c "echo \"$CONJUR_MASTER_HOST_IP    $CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
   fi
 
   wait_till_master_is_responsive
 	# initialize cli for connection to master
-  docker exec -it $CLI_CONTAINER_NAME bash -c "echo yes | conjur init -a $CONJUR_ACCOUNT -u https://$CONJUR_MASTER_HOST --force=true"
+  docker exec -it $CLI_CONTAINER_NAME bash -c "echo yes | conjur init -a $CONJUR_ACCOUNT -u $CONJUR_APPLIANCE_URL --force=true"
   docker exec $CLI_CONTAINER_NAME conjur authn login -u admin -p $CONJUR_ADMIN_PASSWORD
   docker exec $CLI_CONTAINER_NAME mkdir /policy
 
@@ -79,7 +79,7 @@ wait_till_master_is_responsive() {
   master_is_healthy=""
   while [[ "$master_is_healthy" == "" ]]; do
     sleep 2
-    master_is_healthy=$(docker exec -it conjur-cli curl -k https://$CONJUR_MASTER_HOST/health | grep "ok" | tail -1 | grep "true")
+    master_is_healthy=$(docker exec -it conjur-cli curl -k $CONJUR_APPLIANCE_URL/health | grep "ok" | tail -1 | grep "true")
   done
   set -e
 }
