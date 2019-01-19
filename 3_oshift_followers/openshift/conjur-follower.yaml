@@ -44,12 +44,5 @@ spec:
           name: ldaps
         - containerPort: 5432
           name: pg-main
-        - containerPort: 5433
+        - containerPort: 1999
           name: pg-audit
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 443
-            scheme: HTTPS
-          initialDelaySeconds: 15
-          timeoutSeconds: 1

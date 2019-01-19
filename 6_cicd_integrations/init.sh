@@ -13,10 +13,10 @@ END
 conjur authn login -u $CONJUR_ADMIN_NAME -p $CONJUR_ADMIN_PASSWORD
 cd /demo_root
 conjur policy load root policy.yml
-conjur variable values add secrets/test-db_username ThisIsTheTESTDBuserName
-conjur variable values add secrets/test-db_password 10938471084710238470973
-conjur variable values add secrets/prod-db_username ThisIsThePRODDBuserName
-conjur variable values add secrets/prod-db_password aoiuaspduperjqkjnsoudoo
+conjur variable values add cicd-secrets/test-db-username ThisIsTheTESTDBuserName
+conjur variable values add cicd-secrets/test-db-password 10938471084710238470973
+conjur variable values add cicd-secrets/prod-db-username ThisIsThePRODDBuserName
+conjur variable values add cicd-secrets/prod-db-password aoiuaspduperjqkjnsoudoo
 
 CONJUR_AUTHN_API_KEY=$(conjur host rotate_api_key --host $CONJUR_AUTHN_LOGIN)
 

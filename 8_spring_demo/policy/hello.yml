@@ -1,0 +1,29 @@
+---
+- !host spring_demo
+
+- !policy 
+  id: spring-apps/hello
+  body:
+  - &secrets
+    - !variable pg/username
+    - !variable pg/password
+    - !variable secret
+
+  - !layer
+
+  - !permit
+    role: !layer
+    privileges: [ read, execute ]
+    resource: *secrets
+
+  - !grant
+    role: !layer
+    members:
+    - !host /spring_demo
+
+- !permit
+  role: !layer spring-apps/hello
+  privileges: [ read, execute ]
+  resource: 
+  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/username
+  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password

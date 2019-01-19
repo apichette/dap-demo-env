@@ -12,24 +12,23 @@
     id: node_factory
     layer: [ nodes ]
 
-
 - !policy
-  id: secrets
+  id: cicd-secrets
   body:
-  - !variable test-db_username
-  - !variable test-db_password
-  - !variable prod-db_username
-  - !variable prod-db_password
+  - !variable test-db-username
+  - !variable test-db-password
+  - !variable prod-db-username
+  - !variable prod-db-password
 
-    # Permit node identity to retrieve secrets
+  # Permit node identity to retrieve secrets
   - !permit
     privileges: [ read, execute ]
     roles:
     - !host /client/node
     - !layer /client/nodes
     resources:
-    - !variable test-db_username
-    - !variable test-db_password
-    - !variable prod-db_username
-    - !variable prod-db_password
+    - !variable test-db-username
+    - !variable test-db-password
+    - !variable prod-db-username
+    - !variable prod-db-password
 

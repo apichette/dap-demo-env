@@ -19,6 +19,6 @@ RUN curl -sSL https://raw.githubusercontent.com/cyberark/summon/master/install.s
 COPY secrets.yml webapp*.sh uid_entrypoint.sh /
 
 # setup entrypoint for default user
-RUN chmod g=u /etc/passwd /*.sh
+RUN chmod g=u /etc/passwd /*.sh /secrets.yml
 ENTRYPOINT [ "/uid_entrypoint.sh" ]
 USER 1001

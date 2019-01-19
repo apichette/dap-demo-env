@@ -4,5 +4,5 @@ if [[ -z $1 ]] ; then
 	exit 1
 fi
 POLICY_FILE=$1
-conjur authn login -u admin -p Cyberark1
-conjur policy load --as-group security_admin $POLICY_FILE
+conjur authn login -u admin -p $CONJUR_ADMIN_PASSWORD
+conjur policy load root $POLICY_FILE

@@ -20,7 +20,7 @@ main() {
   echo "Load demo policy and sample secret value"
   docker cp puppetdemo-policy.yml $CLI_CONTAINER_NAME:/policy/puppetdemo-policy.yml
   runIncli conjur authn login -u admin -p Cyberark1
-  runIncli conjur policy load --replace root /policy/puppetdemo-policy.yml
+  runIncli conjur policy load root /policy/puppetdemo-policy.yml
   runIncli conjur variable values add puppetdemo/dbpassword 'white rabbit'
   runIncli conjur variable values add puppetdemo/secretkey 'Se(re1Fr0mConjur'
 

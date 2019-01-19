@@ -8,12 +8,12 @@ APP_HOSTNAME=webapp/tomcat_host
 rm -f /root/.conjurrc /root/conjur*.pem
 
 # initialize client environment
-conjur init -u https://$CONJUR_MASTER_HOST_NAME:$CONJUR_MASTER_PORT -a $CONJUR_ACCOUNT --force=true
+echo yes | conjur init -u https://$CONJUR_MASTER_HOST_NAME:$CONJUR_MASTER_PORT -a $CONJUR_ACCOUNT --force=true
 
 sleep 2
 conjur authn login -u admin -p Cyberark1
-conjur policy load root webapp-identity.yml
-conjur policy load root webapp-secrets.yml
+conjur policy load root ./policy/webapp-identity.yml
+conjur policy load root ./policy/webapp-secrets.yml
 conjur variable values add webapp-secrets/database_username DatabaseUser
 conjur variable values add webapp-secrets/database_password $(openssl rand -hex 12)
 

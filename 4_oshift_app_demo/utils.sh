@@ -132,20 +132,7 @@ function wait_for_it() {
 }
 
 function is_minienv() {
-  if hash minishift 2>/dev/null; then
-    # Check if Minishift is running too
-    if [[ $MINIKUBE == false && "$(minishift status | grep Running)" = "" ]]; then
-      false
-    else
-      true
-    fi
-  else
-    if [[ $MINIKUBE == false ]]; then
-      false
-    else
-      true
-    fi
-  fi
+  $MINIKUBE
 }
 
 function service_ip() {

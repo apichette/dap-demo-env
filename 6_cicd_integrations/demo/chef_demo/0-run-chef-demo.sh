@@ -10,4 +10,4 @@ echo "Here is the recipe:"
 cat secrets-echo.rb
 echo
 set -x
-summon -e $1 -f ../secrets.yml chef-solo secrets-echo.rb
+summon -e $1 chef-solo secrets-echo.rb

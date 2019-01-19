@@ -1,10 +1,11 @@
 #!/bin/bash 
 
 # name of secret to retrieve from Conjur
-VAR_ID=secrets/db-password
+#VAR_ID=k8s-secrets/db-password
+VAR_ID=DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password
 
 main() {
-  CONT_SESSION_TOKEN=$(cat $CONJUR_AUTHN_TOKEN_FILE | base64 | tr -d '\r\n')
+  AUTHN_TOKEN=$(cat $CONJUR_AUTHN_TOKEN_FILE | base64 | tr -d '\r\n')
 
   urlify "$VAR_ID"
   VAR_ID=$URLIFIED
@@ -12,7 +13,7 @@ main() {
   VAR_VALUE=$(curl -s -k \
 	--request GET \
 	-H "Content-Type: application/json" \
-	-H "Authorization: Token token=\"$CONT_SESSION_TOKEN\"" \
+	-H "Authorization: Token token=\"$AUTHN_TOKEN\"" \
         $CONJUR_APPLIANCE_URL/secrets/$CONJUR_ACCOUNT/variable/$VAR_ID)
 
   echo

@@ -25,7 +25,7 @@ sed -e "s#{{ AUTHENTICATOR_ID }}#$AUTHENTICATOR_ID#g" \
   > ./policy/resource-access-grants.yml
 
 # copy policy directory contents to cli
-docker cp ./policy conjur-cli:/
+docker cp ./policy conjur-cli:/policy
 
 docker exec -it conjur-cli conjur authn login -u admin -p $CONJUR_ADMIN_PASSWORD
 
@@ -37,10 +37,11 @@ policy/resource-access-grants.yml
 "
 for i in $POLICY_FILE_LIST; do
         echo "Loading policy file: $i"
-        docker exec conjur-cli conjur policy load root "/$i"
+        docker exec conjur-cli conjur policy load root "/policy/$i"
 done
 
-# create initial value for db-password variable
-docker exec conjur-cli conjur variable values add secrets/db-password $(openssl rand -hex 12)
+# create initial value for variables
+docker exec conjur-cli conjur variable values add k8s-secrets/db-username the-db-username
+docker exec conjur-cli conjur variable values add k8s-secrets/db-password $(openssl rand -hex 12)
 
 echo "Conjur policies loaded."

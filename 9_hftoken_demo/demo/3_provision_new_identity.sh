@@ -56,7 +56,6 @@ appliance_url: $CONJUR_APPLIANCE_URL
 account: $CONJUR_ACCOUNT
 netrc_path: "/etc/conjur.identity"
 cert_file: "/etc/conjur-$CONJUR_ACCOUNT.pem"
-plugins: [ policy ]
 CONF_EOF
 
 # delete user identity files to force use of /etc/conjur* host identity files.

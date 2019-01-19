@@ -7,6 +7,7 @@ networks:
 services:
   demo-pg:
     image: postgres:9.3
+    container_name: postgresdb
     ports: [ "35432:5432" ]
     networks:
       - demo
@@ -24,9 +25,9 @@ services:
       CONJUR_AUTHN_LOGIN: $CONJUR_AUTHN_LOGIN
       CONJUR_AUTHN_API_KEY: $CONJUR_AUTHN_API_KEY
     volumes:
-      - ./secrets.yml:/etc/secrets.yml
+      - ./secrets.yml:/secrets.yml
       - ./target:/target
-    command: [ "sleep", "2000000" ]
+    command: [ "sleep", "20000000" ]
 #    command: [ "java", "-jar", "./target/hello-0.1.0.jar" ]
     networks:
       - demo

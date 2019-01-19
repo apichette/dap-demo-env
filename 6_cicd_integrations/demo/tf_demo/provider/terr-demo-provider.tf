@@ -1,11 +1,11 @@
 provider "conjur" {}
 
 data "conjur_secret" "db_uname" {
-  name = "secrets/prod-db_username"
+  name = "cicd-secrets/prod-db-username"
 }
 
 data "conjur_secret" "db_pwd" {
-  name = "secrets/prod-db_password"
+  name = "cicd-secrets/prod-db-password"
 }
 
 output "db_pwd" {
