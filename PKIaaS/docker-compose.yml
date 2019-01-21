@@ -5,30 +5,24 @@ services:
   server:
     build: ./build/server
     container_name: server
-#    environment:
-#      CONJUR_APPLIANCE_URL: $CONJUR_APPLIANCE_URL
-#      CONJUR_ACCOUNT: $CONJUR_ACCOUNT
+    extra_hosts:
+      conjur-master: $CONJUR_MASTER_HOST_IP
     ports:
       - "9080:80"
       - "9443:443"
     volumes:
-      - ./server:/server
+      - ./server_content:/server_content:z
   
   # curl web client
   client:
     build: ./build/client
     container_name: client
-#    environment:
-#      CONJUR_APPLIANCE_URL: $CONJUR_APPLIANCE_URL
-#      CONJUR_ACCOUNT: $CONJUR_ACCOUNT
-    volumes:
-      - ./client:/client
+    entrypoint: "sleep infinity"
+    extra_hosts:
+      conjur-master: $CONJUR_MASTER_HOST_IP
   
   # Service for generating our root and intermediate CA
   ca:
     build: ./build/ca
     volumes: 
       - ./ca:/root
-
-volumes:
-  certs:
