@@ -1,6 +1,6 @@
 ---
 - !policy
-  id: pgr-dev
+  id: cme-dev
   annotations:
     description: This policy defines the identity structure for the application
   body:

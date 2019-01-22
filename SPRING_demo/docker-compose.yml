@@ -17,7 +17,10 @@ services:
     image: hello:demo
     ports: [ "8080:8080" ]
     container_name: hello
+    extra_hosts:
+      conjur-master: $CONJUR_MASTER_HOST_IP
     environment:
+      TERM: xterm
       CONJUR_VERSION: "5"
       CONJUR_APPLIANCE_URL: https://$CONJUR_MASTER_HOST_NAME:$CONJUR_MASTER_PORT
       CONJUR_CERT_FILE: /etc/conjur-$CONJUR_ACCOUNT.pem

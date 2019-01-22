@@ -5,7 +5,7 @@ export CONJUR_AUTHN_API_KEY=temp
 
 source lib/util
 
-./bin/build
+#./bin/build
 ./stop
 
 begin "Starting app container..."
@@ -34,7 +34,6 @@ begin "Starting the demo service"
   CONJUR_AUTHN_API_KEY=$(docker exec -it conjur-cli conjur host rotate_api_key -h spring_demo | tr -d '\r\n')
   echo $CONJUR_AUTH_API_KEY
   docker-compose up -d hello
-  docker-compose exec hello sh -c "echo \"$CONJUR_MASTER_HOST_IP     $CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
   docker cp ../etc/conjur-$CONJUR_ACCOUNT.pem hello:/etc/conjur-$CONJUR_ACCOUNT.pem
 } &> "${LOGBUFFER}"
 finish

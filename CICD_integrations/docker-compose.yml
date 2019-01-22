@@ -5,6 +5,8 @@ services:
     container_name: conjur_cli
     hostname: conjur_cli
     image: cyberark/conjur-cli:5-latest
+    extra_hosts:
+      conjur-master: $CONJUR_MASTER_HOST_IP
     environment:
       CONJUR_VERSION: "5"
       CONJUR_APPLIANCE_URL: https://$CONJUR_MASTER_HOST_NAME:$CONJUR_MASTER_PORT
@@ -22,6 +24,10 @@ services:
     image: client_node:latest
     container_name: client_node
     build: ./build/client_node
+    extra_hosts:
+      conjur-master: $CONJUR_MASTER_HOST_IP
+    environment:
+      TERM: xterm
     volumes:
       - ./demo:/demo
     entrypoint: sleep
