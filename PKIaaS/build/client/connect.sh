@@ -7,13 +7,13 @@ main() {
 
 echo_all() {
   echo
-  echo "MTLS_CA_CHAIN:"; cat $MTLS_CA_CHAIN
+  echo "MTLS_CA_CHAIN:"; openssl x509 -in $MTLS_CA_CHAIN -text -nocert
   echo
   echo
-  echo "MTLS_CERT:"; cat $MTLS_CERT
+  echo "MTLS_CERT:"; openssl x509 -in $MTLS_CERT -text -nocert
   echo
   echo
-  echo "MTLS_PRIVATE_KEY:"; cat $MTLS_PRIVATE_KEY
+  echo "MTLS_PRIVATE_KEY:"; openssl pkey -in $MTLS_PRIVATE_KEY -text -noout
   echo
 }
 

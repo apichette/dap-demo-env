@@ -18,6 +18,8 @@ services:
     build: ./build/client
     container_name: client
     entrypoint: "sleep infinity"
+    environment:
+      TERM: xterm
     extra_hosts:
       conjur-master: $CONJUR_MASTER_HOST_IP
   
