@@ -1,8 +1,8 @@
 etc/*.pem
 etc/*.tar
 0_load_images/images/*.tar*
-5_jenkins_demo/Conjur.hpi
-8_spring_demo/.classpath
-8_spring_demo/.project
-8_spring_demo/.settings
-8_spring_demo/target/hello*
+JENKINS_demo/Conjur.hpi
+SPRING_demo/.classpath
+SPRING_demo/.project
+SPRING_demo/.settings
+SPRING_demo/target/hello*
