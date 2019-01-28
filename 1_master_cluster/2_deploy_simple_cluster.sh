@@ -7,7 +7,7 @@ main() {
   scope launch
   master_up
   cli_up
-#  follower_up
+  follower_up
   echo
 }
 
@@ -34,10 +34,10 @@ master_up() {
     $CONJUR_ACCOUNT
 
   echo "Caching Certificate from Conjur..."
-  mkdir -p ../etc
-  rm -f ../etc/conjur-$CONJUR_ACCOUNT.pem
+  mkdir -p $CACHE_DIR
+  rm -f $CONJUR_CERT_FILE
 					# cache cert for copying to other containers
-  docker cp -L $CONJUR_MASTER_CONTAINER_NAME:/opt/conjur/etc/ssl/conjur.pem ../etc/conjur-$CONJUR_ACCOUNT.pem
+  docker cp -L $CONJUR_MASTER_CONTAINER_NAME:/opt/conjur/etc/ssl/conjur.pem $CONJUR_CERT_FILE
 
   echo "Caching Conjur Follower seed files..."
   docker exec $CONJUR_MASTER_CONTAINER_NAME evoke seed follower conjur-follower > ../etc/follower-seed.tar
@@ -59,7 +59,7 @@ cli_up() {
 
   echo "CLI container launched."
 
-  if [[ $NO_DNS ]]; then
+  if [[ $NO_DNS == true ]]; then
     # add entry for master host name to cli container's /etc/hosts 
     docker exec -it $CLI_CONTAINER_NAME bash -c "echo \"$CONJUR_MASTER_HOST_IP    $CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
   fi

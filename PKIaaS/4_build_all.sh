@@ -4,7 +4,8 @@ set -eu
 source ./mtls-demo.conf
 
 main() {
-  # Get server TLS creds from Conjur - nginx doesn't support environment vars in config file
+  # nginx doesn't support environment vars in config file
+  # get server TLS creds from Conjur to build into image
   docker exec conjur-cli conjur authn login -u admin -p $CONJUR_ADMIN_PASSWORD
   docker exec -it conjur-cli conjur variable value conjur/mutual-tls/ca/cert-chain > ./build/server/tls-ca-chain
   docker exec -it conjur-cli conjur variable value mutual-tls/server/private-key > ./build/server/tls-private-key
@@ -12,6 +13,7 @@ main() {
   docker-compose build server
   rm ./build/server/tls*
 
+  # Conjurize client so it can retrieve TLS creds dynamically
   create_id_files client $MTLS_CLIENT_LOGIN ./build/client
   docker-compose build client
   rm ./build/client/conjur*
@@ -25,9 +27,6 @@ create_id_files() {
 
   # Copy cert to build dir
   cp $CONJUR_CERT_FILE $BUILD_DIR
-
-  # Create /etc/host file entry to append during build
-  echo "$CONJUR_MASTER_HOST_IP	$CONJUR_MASTER_HOST_NAME" > $BUILD_DIR/conjur.dns
 
   # Get host API key
   docker exec -it conjur-cli bash -c "echo yes | conjur init -u $CONJUR_APPLIANCE_URL -a $CONJUR_ACCOUNT --force=true"

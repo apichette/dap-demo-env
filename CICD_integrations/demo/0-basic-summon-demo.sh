@@ -10,5 +10,5 @@ echo
 echo "Here are the secrets Summon retrieves for the $1 environment:"
 summon -e $1 ./secrets_echo.sh
 echo
-echo "The subdirectories show how Ansible, Chef and Terraform can access secrets in env vars."
+echo "The subdirectories show how Ansible, Chef and Terraform can pull secrets from CyberArk."
 echo

@@ -4,7 +4,6 @@ DEMO_CLIENT=demo-client
 
 echo "Starting demo container..."
 docker run -d \
-  -v $(pwd)/demo:/demo \
   --entrypoint sh \
   --name $DEMO_CLIENT \
   --env CONJUR_APPLIANCE_URL=https://$CONJUR_MASTER_HOST_NAME:$CONJUR_MASTER_PORT \
@@ -12,11 +11,11 @@ docker run -d \
   --env CONJUR_MASTER_HOST_IP=$CONJUR_MASTER_HOST_IP \
   --env CONJUR_MASTER_PORT=$CONJUR_MASTER_PORT \
   --env CONJUR_ACCOUNT=$CONJUR_ACCOUNT \
-  cyberark/conjur-cli:5-latest \
+  $CLI_IMAGE_NAME \
   -c "sleep infinity"
 sleep 2
 # use in lieu of volume mount
-#docker cp ./demo $DEMO_CLIENT:/demo
+docker cp ./demo/. $DEMO_CLIENT:/demo/
 clear
 echo "cd to /demo and run scripts in sequence"
 docker exec -it $DEMO_CLIENT bash

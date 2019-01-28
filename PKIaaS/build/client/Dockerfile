@@ -17,5 +17,5 @@ RUN cd /tmp \
 
 ADD conjur* /etc/
 ADD secrets.yml connect.sh /
-RUN chmod 440 /etc/conjur.identity; cat /etc/conjur.dns /etc/hosts
+RUN chmod 440 /etc/conjur.identity
 ENTRYPOINT [ "summon", "./connect.sh" ]

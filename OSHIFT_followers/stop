@@ -10,7 +10,7 @@ fi
 set_namespace default
 
 if has_namespace $CONJUR_NAMESPACE_NAME; then
-  $cli delete namespace $CONJUR_NAMESPACE_NAME
+  $cli delete namespace $CONJUR_NAMESPACE_NAME >& /dev/null &
 
   printf "Waiting for $CONJUR_NAMESPACE_NAME namespace deletion to complete"
 

@@ -1,12 +1,9 @@
 #!/bin/bash -e
 
-# For minishift deployments
-# use "minishift openshift version list" to see supported versions
-# use: "minishift openshift version" to see installed version
-# visit: https://github.com/openshift/origin/tags
-# to see versions with downloadable artifacts (e.g. images)
-export OPENSHIFT_VERSION="v3.9.0"
-export MINISHIFT_VM_MEMORY="6144"
+if [[ "$KUBECONFIG" == "" ]]; then
+  echo "source demo.config before running this script."
+  exit -1
+fi
 
 if [[ "$1" == "reinstall" ]]; then
   minishift delete -f || true
@@ -23,6 +20,11 @@ else
 fi
 eval $(minishift docker-env)
 docker rm $(docker container ls -a | grep Exited | awk '{print $1}')
+
+# if CLI container is running from saved state, restore /etc/hosts entry if needed
+if [[ ("$(docker ps | grep $CLI_CONTAINER_NAME)" != "") && $NO_DNS ]]; then
+  docker exec -it $CLI_CONTAINER_NAME bash -c "echo \"$CONJUR_MASTER_HOST_IP    $CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
+fi
 
 echo ""
 echo "IMPORTANT!  IMPORTANT!  IMPORTANT!  IMPORTANT!"

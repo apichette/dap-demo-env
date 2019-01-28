@@ -1,9 +1,8 @@
-#!/bin/bash 
+#!/bin/bash -x
 
-. ./manifests/image_list.env
+. ./image_list.env
 
-num_rows=8
-for ((i=1;i<num_rows;i++)) do
+for ((i=1;i<$NUM_IMAGES;i++)) do
   iname=${IMAGE_LIST[$i]}
   fname=${FILE_LIST[$i]}
 		# Skip if image not found

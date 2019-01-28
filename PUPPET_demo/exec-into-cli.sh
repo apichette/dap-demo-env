@@ -1,3 +1,3 @@
 #!/bin/bash 
 . ../utils.sh
-docker exec -it conjur_cli bash
+docker exec -it $CLI_CONTAINER_NAME bash

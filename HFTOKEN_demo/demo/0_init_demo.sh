@@ -1,4 +1,4 @@
-#!/bin/bash  -x
+#!/bin/bash 
 # fake DNS IP resolution with /etc/hosts entry
 echo "$CONJUR_MASTER_HOST_IP   $CONJUR_MASTER_HOST_NAME" >> /etc/hosts
 

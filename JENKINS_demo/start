@@ -1,5 +1,7 @@
 #!/bin/bash 
+source jenkins-demo.config
+
 docker-compose up -d
-docker exec -itu root jenkins-master bash -c "echo \"$CONJUR_MASTER_HOST_IP	$CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
+docker cp ./demo/. jenkins-master:/demo/
 echo "cd to /demo and run scripts in order"
 docker exec -itu root jenkins-master bash

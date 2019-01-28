@@ -1,5 +1,6 @@
 #!/bin/bash 
 source lib/util
+source spring-demo.config
 
 begin "Cleaning up any existing docker compose state"
 {

@@ -3,18 +3,17 @@ services:
   puppet:
     image: puppet-master:demo
     container_name: puppet
+    hostname: puppet
+    extra_hosts:
+      - "$CONJUR_MASTER_HOST_NAME: $CONJUR_MASTER_HOST_IP"
     environment:
       AUTOSIGN: "true"
       TERM: "xterm"
       TZ: "UTC"
-    hostname: puppet
     networks: 
       default: 
         aliases:
           - puppet
-    volumes:
-      - ./puppet/manifests/:/etc/puppetlabs/code/environments/production/manifests/:Z
-      - ./puppet/modules/motd/:/etc/puppetlabs/code/environments/production/modules/motd/:Z
     ports:
       - 3443:443
  

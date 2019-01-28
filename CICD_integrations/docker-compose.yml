@@ -1,35 +1,13 @@
 version: '2'
 services:
 
-  cli:
-    container_name: conjur_cli
-    hostname: conjur_cli
-    image: cyberark/conjur-cli:5-latest
-    extra_hosts:
-      conjur-master: $CONJUR_MASTER_HOST_IP
-    environment:
-      CONJUR_VERSION: "5"
-      CONJUR_APPLIANCE_URL: https://$CONJUR_MASTER_HOST_NAME:$CONJUR_MASTER_PORT
-      CONJUR_ACCOUNT: $CONJUR_ACCOUNT
-      CONJUR_ADMIN_NAME: admin
-      CONJUR_ADMIN_PASSWORD: $CONJUR_ADMIN_PASSWORD
-      CONJUR_AUTHN_LOGIN: client/node
-    volumes:
-      - .:/demo_root:z
-    entrypoint: sleep
-    command: infinity
-    restart: always
-
   client:
     image: client_node:latest
     container_name: client_node
-    build: ./build/client_node
-    extra_hosts:
-      conjur-master: $CONJUR_MASTER_HOST_IP
+    build: ./build
+    extra_hosts: [ "$CONJUR_MASTER_HOST_NAME:$CONJUR_MASTER_HOST_IP" ]
     environment:
       TERM: xterm
-    volumes:
-      - ./demo:/demo
     entrypoint: sleep
     command: infinity
     restart: always

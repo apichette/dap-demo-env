@@ -1,1 +1,2 @@
+source jenkins-demo.config
 docker-compose down

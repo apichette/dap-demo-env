@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 set -eou pipefail
 
 main() {
@@ -7,6 +7,7 @@ main() {
   start_apps
   wait_for_puppet_master
   inject_hf_token
+  copy_files_to_puppet_master
 }
 
 all_down() {
@@ -33,8 +34,7 @@ puppet_up() {
 
   echo "-----"
   echo "Setup Puppet connection to Conjur service"
-  runInPuppet bash -c "echo \"$CONJUR_MASTER_HOST_IP     $CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
-  docker cp ../etc/conjur-$CONJUR_ACCOUNT.pem $PUPPET_CONT_ID:/etc/conjur.pem
+  docker cp $CONJUR_CERT_FILE $PUPPET_CONT_ID:/etc/conjur.pem
 }
 
 start_apps() {
@@ -58,12 +58,13 @@ inject_hf_token() {
 	sed -e "s#{{ CONJUR_HF_TOKEN }}#$CONJUR_HF_TOKEN#g" > ./puppet/manifests/conjur.pp
 }
 
-runIncli() {
-  docker exec -it $CLI_CONTAINER_NAME "$@"
+copy_files_to_puppet_master() {
+  docker cp ./puppet/manifests/ puppet:/etc/puppetlabs/code/environments/production/manifests/
+  docker cp ./puppet/modules/motd/ puppet:/etc/puppetlabs/code/environments/production/modules/motd/
 }
 
-runInPuppet() {
-  docker-compose exec -T puppet "$@"
+runIncli() {
+  docker exec -it $CLI_CONTAINER_NAME "$@"
 }
 
 main "$@"

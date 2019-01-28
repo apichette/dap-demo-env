@@ -15,10 +15,10 @@ services:
   hello:
     build: .
     image: hello:demo
-    ports: [ "8080:8080" ]
+    ports: [ "$SPRING_PORT:8080" ]
     container_name: hello
-    extra_hosts:
-      conjur-master: $CONJUR_MASTER_HOST_IP
+    extra_hosts: 
+      - "$CONJUR_MASTER_HOST_NAME:$CONJUR_MASTER_HOST_IP"
     environment:
       TERM: xterm
       CONJUR_VERSION: "5"
@@ -27,11 +27,8 @@ services:
       CONJUR_ACCOUNT: $CONJUR_ACCOUNT
       CONJUR_AUTHN_LOGIN: $CONJUR_AUTHN_LOGIN
       CONJUR_AUTHN_API_KEY: $CONJUR_AUTHN_API_KEY
-    volumes:
-      - ./secrets.yml:/secrets.yml
-      - ./target:/target
     command: [ "sleep", "20000000" ]
-#    command: [ "java", "-jar", "./target/hello-0.1.0.jar" ]
+#    command: [ "java", "-jar", "./hello-0.1.0.jar" ]
     networks:
       - demo
       - bridge
