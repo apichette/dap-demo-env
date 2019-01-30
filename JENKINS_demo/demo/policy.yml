@@ -25,5 +25,3 @@
     - !variable jenkins-secrets/test_db_password
     - !variable jenkins-secrets/prod_db_username
     - !variable jenkins-secrets/prod_db_password
-    - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/username
-    - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password

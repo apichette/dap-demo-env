@@ -142,11 +142,7 @@ function wait_for_it() {
 }
 
 function is_minienv() {
-  if [[ $MINIKUBE == true ]]; then
-    true
-  else
-    false
-  fi
+  echo $MINIKUBE
 }
 
 function service_ip() {

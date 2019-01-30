@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -x
 set -euo pipefail
 
 . utils.sh
@@ -20,7 +20,7 @@ function finish {
     fi
   done
 
-  if [[ $MINIKUBE ]]; then
+  if [[ $MINIKUBE == true ]]; then
     kill -9 $(ps -a | grep "minikube tunnel" | grep -v grep | cut -d " " -f 1)
   fi
 }

@@ -31,5 +31,3 @@
   - !variable cicd-secrets/test-db-password
   - !variable cicd-secrets/prod-db-username
   - !variable cicd-secrets/prod-db-password
-#  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/username
-#  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password

@@ -20,10 +20,3 @@
     role: !layer
     members:
     - !host /spring_demo
-
-- !permit
-  role: !layer spring-apps/hello
-  privileges: [ read, execute ]
-  resource: 
-  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/username
-  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password
