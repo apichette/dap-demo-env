@@ -1,18 +1,20 @@
 #!/bin/bash -x
 
 main() {
-  install_vbox
-  install_minishift
-  install_docker_compose
+#  install_vbox
+#  install_minishift
+#  install_docker
+#  install_docker_compose
+  install_weavescope
 }
 
 install_vbox() {
   printf "\nInstalling kernel extensions..."
-  sudo yum install kernel-devel kernel-headers make patch gcc
+  sudo yum install -y kernel-devel kernel-headers make patch gcc
   printf "\nUpdate repos w/vbox repo..."
   sudo wget https://download.virtualbox.org/virtualbox/rpm/el/virtualbox.repo -P /etc/yum.repos.d
   printf "\nInstalling VirtualBox 5.2..."
-  sudo yum install VirtualBox-5.2
+  sudo yum install -y VirtualBox-5.2
 }
 
 install_minishift() {
@@ -26,6 +28,21 @@ install_minishift() {
 install_docker_compose() {
   sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   sudo chmod +x /usr/local/bin/docker-compose
+}
+
+install_docker() {
+  printf "\nInstalling docker..."
+  sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+  sudo yum-config-manager --add-repo \
+		https://download.docker.com/linux/centos/docker-ce.repo
+  sudo yum install -y docker-ce
+  sudo systemctl start docker
+  sudo usermod -aG docker $USER
+}
+
+install_weavescope() {
+  sudo curl -L git.io/scope -o /usr/local/bin/scope
+  sudo chmod a+x /usr/local/bin/scope
 }
 
 main "$@"

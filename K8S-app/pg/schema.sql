@@ -1,2 +1,2 @@
-CREATE USER test_app PASSWORD '9e63550d0937197d4570a54d';
+CREATE USER test_app PASSWORD '5cc4fead9e1fa7eb7f782187';
 GRANT ALL ON SCHEMA public to test_app;

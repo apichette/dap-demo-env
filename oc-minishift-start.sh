@@ -23,7 +23,9 @@ docker rm $(docker container ls -a | grep Exited | awk '{print $1}')
 
 # if CLI container is running from saved state, restore /etc/hosts entry if needed
 if [[ ("$(docker ps | grep $CLI_CONTAINER_NAME)" != "") && $NO_DNS ]]; then
+  CONJUR_MASTER_HOST_IP=$(minishift ip) 
   docker exec -it $CLI_CONTAINER_NAME bash -c "echo \"$CONJUR_MASTER_HOST_IP    $CONJUR_MASTER_HOST_NAME\" >> /etc/hosts"
+  scope launch >& /dev/null
 fi
 
 echo ""

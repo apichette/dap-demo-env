@@ -7,7 +7,7 @@ main() {
   scope launch
   master_up
   cli_up
-  follower_up
+#  follower_up
   echo
 }
 

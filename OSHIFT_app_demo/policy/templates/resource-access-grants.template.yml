@@ -15,5 +15,5 @@
   resources:
   - !variable k8s-secrets/db-username
   - !variable k8s-secrets/db-password
-  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/username
-  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password
+#  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/username
+#  - !variable DemoVault/CICD/CICD_Secrets/Database-Oracle-OracleDBuser/password
