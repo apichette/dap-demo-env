@@ -1,15 +1,52 @@
 #!/bin/bash
-if [[ "$KUBERNETES_VERSION" == "" ]]; then
-	echo "source kubernetes.config first before running this script."
+
+if [[ $PLATFORM != kubernetes ]]; then
+  echo "PLATFORM not set to 'kubernetes'."
+  echo "Edit and source demo.config before running this script."
+  exit -1
+fi
+
+case $1 in
+  stop )
+	minikube stop
+	exit 0
+	;;
+  delete )
+	minikube delete 
+	rm -rf $KUBECONFIGDIR ~/.minikube ~/.kube
+	exit 0
+	;;
+  reinstall )
+	minikube delete
+	rm -rf $KUBECONFIGDIR ~/.minikube ~/.kube
+        unset KUBECONFIG
+	;;
+  start )
+	if [[ ! -f $KUBECONFIG ]]; then
+	  unset KUBECONFIG
+	fi
+	;;
+  * )
+	echo "Usage: $0 [ reinstall | start | stop | delete ]"
 	exit -1
+	;;
+esac
+
+if [[ "$(minikube status | grep Running)" != "" ]]; then
+  echo "Your minikube environment is already up - skipping creation!"
+else
+  minikube start --memory "$MINIKUBE_VM_MEMORY" \
+                  --vm-driver virtualbox \
+                  --kubernetes-version "$KUBERNETES_VERSION"
+  if [[ ! -d $KUBECONFIGDIR ]]; then
+    mkdir $KUBECONFIGDIR
+    cp -r ~/.kube/* $KUBECONFIGDIR
+    rm -rf ~/.kube
+    export KUBECONFIG=$KUBECONFIGDIR/config
+  fi
 fi
-# if no existing VM, delete past login state and minikube resources 
-if [[ "$1" == "reinstall" ]]; then
-  minikube delete
-  rm -rf $KUBECONFIG ~/.minikube
-fi
-minikube config set memory $MINIKUBE_VM_MEMORY
-minikube start --memory $MINIKUBE_VM_MEMORY --vm-driver virtualbox --kubernetes-version $KUBERNETES_VERSION 
+eval $(minikube docker-env)
+
 #remove all taints from the minikube node so that pods will get scheduled
 sleep 5
 kubectl patch node minikube -p '{"spec":{"taints":[]}}'
