@@ -12,7 +12,7 @@ fi
 
 main() {
   push_conjur_appliance
-#  push_haproxy
+  push_haproxy
   push_cli
   echo "Docker images pushed."
 }

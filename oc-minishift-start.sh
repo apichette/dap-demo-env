@@ -41,7 +41,7 @@ else
                   --show-libmachine-logs \
                   --openshift-version "$OPENSHIFT_VERSION"
   if [[ ! -d $KUBECONFIGDIR ]]; then
-    mkdir $KUBECONFIGDIR
+    mkdir -p $KUBECONFIGDIR
     cp -r ~/.kube/* $KUBECONFIGDIR
     rm -rf ~/.kube
     export KUBECONFIG=$KUBECONFIGDIR/config

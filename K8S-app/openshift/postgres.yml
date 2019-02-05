@@ -38,7 +38,7 @@ spec:
           - name: POSTGRESQL_USER
             value: test_app
           - name: POSTGRESQL_PASSWORD
-            value: 152daf1569acdf3d6fec0c56
+            value: fabf30e71cc0ddb8a9d81e8a
           - name: POSTGRESQL_DATABASE
             value: test_app
 
@@ -82,7 +82,7 @@ spec:
           - name: POSTGRESQL_USER
             value: test_app
           - name: POSTGRESQL_PASSWORD
-            value: 152daf1569acdf3d6fec0c56
+            value: fabf30e71cc0ddb8a9d81e8a
           - name: POSTGRESQL_DATABASE
             value: test_app
 
@@ -126,6 +126,6 @@ spec:
           - name: POSTGRESQL_USER
             value: test_app
           - name: POSTGRESQL_PASSWORD
-            value: 152daf1569acdf3d6fec0c56
+            value: fabf30e71cc0ddb8a9d81e8a
           - name: POSTGRESQL_DATABASE
             value: test_app

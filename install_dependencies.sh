@@ -1,15 +1,23 @@
-#!/bin/bash 
-# Minishift v1.25 is the latest version that still support Openshift 3.9
-MINISHIFT_VERSION=1.25.0
+#!/bin/bash -x
+# Minishift v1.23 is the latest version that still support Openshift 3.9
+MINISHIFT_VERSION=1.23.0
 VBOX_VERSION=5.2
 
-main() {
-#  install_vbox
-#  install_docker
-#  install_docker_compose
-#  install_minishift
+xxmain() {
+  install_jq
+  install_vbox
+  install_docker
+  install_docker_compose
   install_minikube
-#  install_weavescope
+  install_weavescope
+}
+
+main() {
+  install_minishift
+}
+
+install_jq() {
+  sudo wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/local/bin/jq
 }
 
 install_vbox() {
@@ -40,7 +48,7 @@ install_docker_compose() {
 install_minishift() {
   printf "\nInstalling minishift v${MINISHIFT_VERSION}..."
   wget https://github.com/minishift/minishift/releases/download/v$MINISHIFT_VERSION/minishift-$MINISHIFT_VERSION-linux-amd64.tgz
-  tar xvzf minishift-$MINISHIFT_VERSION-linux-amd64.tgz */minishift -O > ./minishift
+  tar xvzf minishift-$MINISHIFT_VERSION-linux-amd64.tgz */minishift > ./minishift
   chmod +x minishift
   sudo mv minishift /usr/local/bin
   rm minishift-$MINISHIFT_VERSION-linux-amd64.tgz

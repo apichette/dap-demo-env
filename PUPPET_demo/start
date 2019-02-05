@@ -1,6 +1,8 @@
 #!/bin/bash 
 set -eou pipefail
 
+0-build-all.sh
+
 main() {
   all_down
   puppet_up

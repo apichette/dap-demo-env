@@ -168,7 +168,7 @@ configure_cli() {
 
   wait_till_master_is_responsive
 	# initialize cli connection to master & login as admin
-  docker exec -it $CLI_CONTAINER_NAME bash -c "echo yes | conjur init -a $CONJUR_ACCOUNT -u https://$CONJUR_MASTER_HOST --force=true"
+  docker exec -it $CLI_CONTAINER_NAME bash -c "echo yes | conjur init -a $CONJUR_ACCOUNT -u $CONJUR_APPLIANCE_URL --force=true"
 
   docker exec $CLI_CONTAINER_NAME conjur authn login -u admin -p $CONJUR_ADMIN_PASSWORD
   docker exec $CLI_CONTAINER_NAME mkdir /policy
@@ -181,7 +181,7 @@ cluster_up() {
   announce "Initializing etcd cluster..."
 
   wait_till_master_is_responsive
-  docker cp ./cluster-policy.yml conjur-cli:/cluster-policy.yml
+  docker cp ./policy/cluster-policy.yml conjur-cli:/policy/cluster-policy.yml
   docker exec -it conjur-cli conjur policy load root ./policy/cluster-policy.yml
   docker exec -it $CONJUR_MASTER_CONTAINER_NAME evoke cluster enroll -n $CONJUR_MASTER_CONTAINER_NAME conjur-cluster
 
@@ -194,7 +194,7 @@ wait_till_master_is_responsive() {
   master_is_healthy=""
   while [[ "$master_is_healthy" == "" ]]; do
     sleep 2
-    master_is_healthy=$(docker exec -it conjur-cli curl -k https://$CONJUR_MASTER_HOST/health | grep "ok" | tail -1 | grep "true")
+    master_is_healthy=$(docker exec -it conjur-cli curl -k $CONJUR_APPLIANCE_URL/health | grep "ok" | tail -1 | grep "true")
   done
   set -e
 }
